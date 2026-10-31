@@ -6,10 +6,10 @@ use crate::{
 use mcp_toolkit::rmcp::{
     self,
     model::{
-        CallToolRequestParams, CallToolResponse, CallToolResult, ListResourcesResult,
-        ListToolsResult, PaginatedRequestParams, ProtocolVersion, ReadResourceRequestParams,
-        ReadResourceResponse, ServerCapabilities, ServerConfig, SubscriptionFilter, Tool,
-        Implementation,
+        CallToolRequestParams, CallToolResponse, CallToolResult, Implementation,
+        ListResourcesResult, ListToolsResult, PaginatedRequestParams, ProtocolVersion,
+        ReadResourceRequestParams, ReadResourceResponse, ServerCapabilities, ServerConfig,
+        SubscriptionFilter, Tool,
     },
     service::{RequestContext, SubscriptionContext},
     RoleServer, ServerHandler,
@@ -123,10 +123,18 @@ impl ServerHandler for IrcMcp {
             }
             Err(e) => {
                 let mut response = json!({"isError":true,"content":[{"type":"text","text":format!("{}: {}",e.code,e.message)}],"structuredContent":{"ok":false,"error":{"code":e.code,"message":e.message}}});
-                if matches!(request.name.as_ref(), "irc_send" | "irc_join" | "irc_part") && !p.scopes.contains("irc.write") {
+                if matches!(request.name.as_ref(), "irc_send" | "irc_join" | "irc_part")
+                    && !p.scopes.contains("irc.write")
+                {
                     let url = mcp_toolkit::http::oauth::resource_metadata_hint(
                         &self.app.cfg.resource_url(),
-                    ).ok_or_else(|| rmcp::ErrorData::internal_error("Invalid OAuth metadata configuration.", None))?;
+                    )
+                    .ok_or_else(|| {
+                        rmcp::ErrorData::internal_error(
+                            "Invalid OAuth metadata configuration.",
+                            None,
+                        )
+                    })?;
                     response["_meta"] = json!({"mcp/www_authenticate":[format!(
                         "Bearer resource_metadata=\"{url}\", error=\"insufficient_scope\", error_description=\"This action requires permission to send IRC messages\", scope=\"irc.write\""
                     )]});

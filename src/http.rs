@@ -82,7 +82,10 @@ pub async fn build(app: Arc<Service>, stop: CancellationToken) -> BuildResult<Ro
         metadata.code_challenge_methods_supported.as_deref(),
         metadata.token_endpoint_auth_methods_supported.as_deref(),
     ) {
-        return Err("OAuth issuer must advertise PKCE S256 and a supported token authentication method".into());
+        return Err(
+            "OAuth issuer must advertise PKCE S256 and a supported token authentication method"
+                .into(),
+        );
     }
     let auth = Arc::new(Authenticator::new(AuthConfig {
         mode: AuthMode::Jwks,
