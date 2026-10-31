@@ -3,11 +3,11 @@
 #[cfg(not(unix))]
 compile_error!("The first version requires Unix domain sockets.");
 pub mod attention;
-pub mod inbox;
 pub mod config;
 pub mod domain;
 pub mod events;
 pub mod http;
+pub mod inbox;
 pub mod mcp;
 pub mod receipts;
 pub mod relay;

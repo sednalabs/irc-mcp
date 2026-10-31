@@ -52,3 +52,12 @@ production deployment is represented as complete without its own evidence.
 - Documented public publication boundaries and explicitly labelled the source
   experimental pending compilation, a reviewed Cargo.lock and integration tests.
 - No Rust application code or protocol contract was changed.
+
+### First hosted qualification (31 October 2026)
+
+- GitHub-hosted Rust 1.99 generated and reviewed `Cargo.lock`, ran rustfmt,
+  compiled the toolkit-integrated service, and passed all 52 Rust tests.
+- Resolved three Clippy style findings in test setup and module ordering.
+- Prepared a locked, non-deploying strict CI rerun; live WeeChat/ChatGPT
+  qualification remains a separate acceptance boundary.
+- Hosted evidence: https://github.com/sednalabs/irc-mcp/actions/runs/41179746060

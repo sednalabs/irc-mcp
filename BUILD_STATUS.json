@@ -1,7 +1,7 @@
 {
   "candidate": "irc-mcp 0.2.0",
   "date": "2026-10-31",
-  "release_status": "SOURCE CANDIDATE ONLY; Rust compilation and live integration not qualified",
+  "release_status": "HOSTED RUST COMPILATION AND ALL 52 RUST TESTS PASSED; STRICT CI RECHECK AND LIVE INTEGRATION NOT YET QUALIFIED",
   "source_written": true,
   "artifact_checks": {
     "passed": 59,
@@ -13,7 +13,7 @@
   },
   "rust_tests": {
     "authored": 52,
-    "executed": false,
+    "executed": true,
     "by_file": {
       "src/attention.rs": 6,
       "src/domain.rs": 5,
@@ -28,11 +28,16 @@
       "tests/relay_contract.rs": 4,
       "tests/relay_events_contract.rs": 1,
       "upstream/mcp-toolkit-resource-state/tests/contracts.rs": 9
-    }
+    },
+    "passed": 52,
+    "failed": 0,
+    "evidence": "https://github.com/sednalabs/irc-mcp/actions/runs/41179746060"
   },
   "rust_compilation": {
-    "executed": false,
-    "reason": "No rustc/cargo executable available on PATH. The toolchain download host could not be resolved in this runtime."
+    "executed": true,
+    "passed": true,
+    "environment": "GitHub-hosted ubuntu-24.04, pinned Rust 1.99",
+    "evidence": "https://github.com/sednalabs/irc-mcp/actions/runs/41179746060"
   },
   "qualification_attempt": {
     "command": "bash scripts/qualify.sh",
@@ -41,11 +46,18 @@
     "log": "validation/rust-qualification-attempt.txt"
   },
   "rust_formatting_and_clippy": {
-    "executed": false
+    "rustfmt_executed": true,
+    "clippy_executed": true,
+    "first_run_findings": 3,
+    "first_run_clippy_result": "failed due to style findings in src/inbox.rs and src/mcp.rs",
+    "fixes_in_candidate": true,
+    "final_strict_ci": "check PR for current results"
   },
   "dependency_lockfile": {
-    "generated": false,
-    "reason": "No dependency resolution; no lockfile fabricated"
+    "generated": true,
+    "generated_in": "GitHub-hosted run 41179746060",
+    "committed_in_candidate": true,
+    "root_patches_pinned": true
   },
   "patch_check": {
     "passed": true,
@@ -85,8 +97,9 @@
     "scope": "CI workflow, ignore rules, docs; no application code changes",
     "checkout_action": "actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
     "runner": "ubuntu-24.04",
-    "ci_executed": false,
+    "ci_executed": true,
     "requires_reviewed_lockfile": true,
-    "publication_performed": false
+    "publication_performed": true,
+    "draft_pr": "https://github.com/sednalabs/irc-mcp/pull/1"
   }
 }

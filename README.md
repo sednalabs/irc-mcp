@@ -4,12 +4,12 @@ A hosted Rust MCP adapter for a private, patched WeeChat Relay connected to an
 existing IRC server. The service uses `mcp-toolkit-rs` and its pinned RMCP fork.
 It does not implement an agent runtime or expose raw WeeChat commands.
 
-**Status: EXPERIMENTAL / NOT PRODUCTION READY.** Source implementation, not a compiled or deployed release. This
-package was authored locally without an available Rust/Cargo toolchain,
-private Relay access or a configured OAuth issuer. Publication of the source via a draft PR
-does not establish build qualification or deployment. See `BUILD_STATUS.json` for
-exact checks actually run. Rust tests and the real ChatGPT journey remain to be
-executed on an approved worker. No Cargo.lock has been fabricated.
+**Status: EXPERIMENTAL / NOT PRODUCTION READY.** GitHub-hosted Rust 1.99
+qualification [compiled the code and passed all 52 Rust tests](https://github.com/sednalabs/irc-mcp/actions/runs/41179746060).
+That first run identified three Clippy style findings; this branch includes
+corrections, committed `Cargo.lock`, and Rustfmt output for the strict CI rerun.
+The hosted build does not establish private Relay, real OAuth/ChatGPT integration,
+or deployment readiness. See `BUILD_STATUS.json` and PR checks for exact evidence.
 
 ## Implemented source surface
 
@@ -57,9 +57,12 @@ approved build worker, then run:
 
 The explicit `--prepare` mode formats and generates Cargo.lock; normal verification
 uses `--locked` and does not silently change dependency resolution. Both modes run
-the checks, tests and Clippy. Review and commit prepared changes before publication. GitHub-hosted CI runs on pull requests, pushes to `main`, and manual dispatch, using a pinned checkout action and no deployment credentials. CI intentionally fails until a reviewed `Cargo.lock` is committed; this is a build qualification requirement, not a temporary bypass. The workflow rejects an untracked lockfile or an altered tree.
-Git dependencies are pinned at source; transitive dependency resolution is still
-outstanding until the lockfile exists. Nothing in these scripts deploys a service.
+the checks, tests and Clippy. Review and commit prepared changes before publication.
+GitHub-hosted CI runs on pull requests, pushes to `main`, and manual dispatch,
+using a pinned checkout action and no deployment credentials. The reviewed
+`Cargo.lock` is committed and CI requires it to be tracked; dependency and
+Git-source revisions are fixed by that lockfile. Neither the checks nor these
+scripts deploy a service.
 
 The temporary dependency in `upstream/mcp-toolkit-resource-state` is the same
 source proposed by the toolkit patch. It has no external dependencies. It is not
