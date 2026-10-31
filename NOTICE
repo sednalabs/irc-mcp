@@ -1,0 +1,4 @@
+IRC MCP source candidate, 2026.
+New implementation and proposed generic helpers are supplied under Apache-2.0.
+Dependency licences remain with their respective owners. The upstream helper
+package is staged locally and has not been accepted into the toolkit repository.

@@ -1,0 +1,50 @@
+# Replace example values; this file contains no credentials.
+# A dedicated WeeChat instance/profile must already have verified TLS/SASL setup.
+bind = "127.0.0.1:8087"
+public_base_url = "https://irc-mcp.example.test"
+issuer = "https://auth.example.test/realms/agents"
+subject = "REPLACE_WITH_YOUR_OIDC_SUBJECT"
+allowed_client_ids = ["REPLACE_WITH_REGISTERED_CHATGPT_CLIENT_ID"]
+# No browser Origin is needed for server-to-server clients. Add exact trusted origins only.
+allowed_origins = []
+relay_socket = "/run/irc-relay/api.sock"
+relay_password_file = "/etc/irc-mcp/relay.secret"
+state_dir = "/var/lib/irc-mcp"
+server = "pilot"
+display_identity = "chatgpt-service"
+# Confirm actual API version against the upgraded deployment before accepting it.
+relay_api_versions = ["0.0.1"]
+
+# Attention is receiver-owned. Conversation keys below, never arbitrary channels.
+[attention]
+direct_messages = true
+mentions = true
+watched_channels = []
+muted_conversations = []
+mention_aliases = []
+# Verify CASEMAPPING for the network before using a non-default mapping.
+case_mapping = "ascii"
+max_entries = 256
+max_bytes = 524288
+max_age_seconds = 3600
+max_message_bytes = 2048
+notification_interval_ms = 500
+
+[[conversations]]
+key = "pilot"
+target = "#agent-pilot"
+description = "Agent coordination test channel"
+writable = true
+
+[[conversations]]
+key = "runner-status"
+target = "#runner-status"
+description = "Read-only capacity and service status"
+writable = false
+
+# Optional: an already-open direct-message buffer, not arbitrary nick discovery.
+# [[conversations]]
+# key = "helper"
+# target = "helper"
+# description = "Dedicated helper service"
+# writable = true

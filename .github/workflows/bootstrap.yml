@@ -1,0 +1,50 @@
+# Temporary, least-privilege qualification lane for preparing the first reviewed lockfile.
+# Remove this workflow after the initial lockfile and formatted source are committed.
+name: Bootstrap hosted Rust qualification
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  rust-qualification:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Check out unprivileged PR source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Verify pinned toolchain
+        run: |
+          rustc --version
+          cargo --version
+      - name: Generate source lockfile and rustfmt output
+        run: |
+          set -euo pipefail
+          cargo generate-lockfile
+          cargo fmt --all
+      - name: Save lockfile and formatted source for review
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: irc-mcp-hosted-prepared
+          path: |
+            Cargo.lock
+            src/
+            tests/
+            upstream/mcp-toolkit-resource-state/
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Compile all targets, test and lint
+        run: |
+          set -euo pipefail
+          cargo check --workspace --all-targets --locked
+          cargo test --workspace --all-targets --locked
+          cargo clippy --workspace --all-targets --locked -- -D warnings
+      - name: Check schema and artifact contracts
+        run: |
+          set -euo pipefail
+          python3 -m venv .venv
+          .venv/bin/python -m pip install -r requirements-validation.txt
+          .venv/bin/python -m pytest -q tests/test_artifact_contracts.py

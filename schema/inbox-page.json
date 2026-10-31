@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "items": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "event_id": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "resource_uri": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "message",
+              "message_updated"
+            ]
+          },
+          "reason": {
+            "enum": [
+              "direct_message",
+              "mention",
+              "watched_channel"
+            ]
+          },
+          "delivery_timing": {
+            "enum": [
+              "next_attention_boundary",
+              "when_convenient"
+            ]
+          },
+          "message": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "local_id": {
+                "type": "string"
+              },
+              "server_msgid": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "server_time": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "observed_time": {
+                "type": "string"
+              },
+              "nick": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "account": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "text": {
+                "type": "string",
+                "maxLength": 4096
+              },
+              "highlight": {
+                "type": "boolean"
+              },
+              "trust": {
+                "const": "untrusted_chat"
+              }
+            },
+            "required": [
+              "local_id",
+              "server_msgid",
+              "server_time",
+              "observed_time",
+              "nick",
+              "account",
+              "text",
+              "highlight",
+              "trust"
+            ]
+          },
+          "text_truncated": {
+            "type": "boolean"
+          },
+          "original_text_bytes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "event_id",
+          "target",
+          "resource_uri",
+          "kind",
+          "reason",
+          "delivery_timing",
+          "message",
+          "text_truncated",
+          "original_text_bytes"
+        ]
+      }
+    },
+    "next_cursor": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 32,
+      "maxLength": 128
+    },
+    "more_in_window": {
+      "type": "boolean"
+    },
+    "retained_items": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1024
+    },
+    "retention_trimmed": {
+      "type": "boolean"
+    },
+    "source": {
+      "const": "live_relay_events_since_generation"
+    },
+    "earlier_history_complete": {
+      "const": false
+    },
+    "consumption": {
+      "const": "not_acknowledged"
+    },
+    "reader_position": {
+      "const": "caller_managed_cursor"
+    },
+    "generation": {
+      "type": "string"
+    },
+    "resource_uri": {
+      "const": "irc://configured/inbox"
+    },
+    "model_wake": {
+      "const": "not_performed"
+    },
+    "receiver_policy": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "items",
+    "next_cursor",
+    "more_in_window",
+    "retained_items",
+    "retention_trimmed",
+    "source",
+    "earlier_history_complete",
+    "consumption",
+    "reader_position",
+    "generation",
+    "resource_uri",
+    "model_wake",
+    "receiver_policy"
+  ]
+}

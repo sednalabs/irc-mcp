@@ -1,0 +1,36 @@
+{
+  "authored_on": "2026-10-31",
+  "kind": "source-candidate-not-build-qualified",
+  "toolkit": {
+    "repository": "sednalabs/mcp-toolkit-rs",
+    "commit": "62e1add3eccadc191c5f7791bce4d2be1a8380a3"
+  },
+  "rmcp": {
+    "repository": "sednalabs/rust-sdk",
+    "commit": "1d2e6ffdaccc7711552154dd2c9d7af4913a8f1e",
+    "reviewed_api_version": "3.5.1"
+  },
+  "protocol": "2026-07-28",
+  "private_project_source_included": false,
+  "upstream_changes_published": false,
+  "live_deployment_performed": false,
+  "external_references": [
+    "https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/subscriptions",
+    "https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching",
+    "https://weechat.org/files/doc/weechat/stable/weechat_relay_api.en.html",
+    "https://weechat.org/files/doc/stable/weechat_relay_api.en.html",
+    "https://weechat.org/files/doc/devel/weechat_user.en.html",
+    "https://modern.ircdocs.horse/#casemapping-parameter"
+  ],
+  "candidate": "irc-mcp 0.2.0",
+  "baseline_source_bundle_sha256": "977d017945ff4426b218fc218f739e209baaa8fd1309c67679b6ff51a2efa437",
+  "design_reference": {
+    "repository": "ExaDev/agent-comms",
+    "commit": "e8f6f1697c280aab68e43e10f3966c4beb329089",
+    "use": "Independently written Rust adaptation of interaction patterns and regression journeys; no upstream application copied or dependency added."
+  },
+  "verification_limits": [
+    "The available Relay API documentation snapshot is older than the security-fixed runtime floor; actual upgraded API fixtures still require qualification.",
+    "No Rust compiler, Cargo, dependency resolution or hosted integration was available in this authoring runtime."
+  ]
+}

@@ -1,0 +1,30 @@
+[Unit]
+Description=Hosted IRC MCP adapter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=irc-mcp
+Group=irc-mcp
+SupplementaryGroups=irc-relay
+ExecStart=/usr/local/bin/irc-mcp --config /etc/irc-mcp/config.toml
+Restart=on-failure
+RestartSec=5
+UMask=0077
+StateDirectory=irc-mcp
+StateDirectoryMode=0700
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadWritePaths=/var/lib/irc-mcp
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target
