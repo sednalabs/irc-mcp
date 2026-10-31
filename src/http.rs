@@ -7,12 +7,15 @@ use crate::{
     service::{epoch, Principal, Service},
 };
 use axum::{
+    body::{to_bytes, Body},
     extract::{Request, State},
     middleware::{self, Next},
     response::{IntoResponse, Response},
     routing::{any, get},
     Router,
 };
+use mcp_toolkit::core::mcp_apps::normalize_mcp_apps_security_schemes_in_tools_list_payload;
+use mcp_toolkit::rmcp::transport::streamable_http_server::StreamableHttpServerConfig;
 use mcp_toolkit::server::{
     auth::{AuthSurfaceBuilder, IssuerEntry},
     http::{handle_mcp, LocalMcpHttpRuntimeBuilder},
@@ -21,10 +24,43 @@ use mcp_toolkit_auth::{
     consume_verified_auth_surface_request_from_request, discover_oidc_metadata,
     surface::AuthorizationServerMetadataSource, AuthConfig, AuthMode, Authenticator,
 };
+use serde_json::Value;
 use std::{collections::BTreeSet, sync::Arc};
 use tokio_util::sync::CancellationToken;
 
 type BuildResult<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;
+const MAX_MCP_JSON_RESPONSE_BYTES: usize = 256 * 1024;
+
+fn chatgpt_tool_list_payload(bytes: &[u8]) -> Option<Vec<u8>> {
+    let mut payload: Value = serde_json::from_slice(bytes).ok()?;
+    (normalize_mcp_apps_security_schemes_in_tools_list_payload(&mut payload) > 0)
+        .then(|| serde_json::to_vec(&payload).ok())
+        .flatten()
+}
+
+/// RMCP's Tool model keeps securitySchemes in _meta. Promote the descriptor
+/// field for ChatGPT without buffering SSE subscriptions or changing other results.
+async fn chatgpt_tool_schemes(request: Request, next: Next) -> Response {
+    let response = next.run(request).await;
+    if !response
+        .headers()
+        .get(http::header::CONTENT_TYPE)
+        .and_then(|value| value.to_str().ok())
+        .is_some_and(|type_name| type_name.starts_with("application/json"))
+    {
+        return response;
+    }
+    let (mut parts, body) = response.into_parts();
+    let bytes = match to_bytes(body, MAX_MCP_JSON_RESPONSE_BYTES).await {
+        Ok(bytes) => bytes,
+        Err(_) => return http::StatusCode::BAD_GATEWAY.into_response(),
+    };
+    if let Some(updated) = chatgpt_tool_list_payload(&bytes) {
+        parts.headers.remove(http::header::CONTENT_LENGTH);
+        return Response::from_parts(parts, Body::from(updated));
+    }
+    Response::from_parts(parts, Body::from(bytes))
+}
 #[derive(Clone)]
 struct Gate {
     cfg: Arc<Config>,
@@ -42,6 +78,12 @@ pub async fn build(app: Arc<Service>, stop: CancellationToken) -> BuildResult<Ro
         discover_oidc_metadata(&cfg.issuer, None),
     )
     .await??;
+    if !chatgpt_oauth_metadata_ready(
+        metadata.code_challenge_methods_supported.as_deref(),
+        metadata.token_endpoint_auth_methods_supported.as_deref(),
+    ) {
+        return Err("OAuth issuer must advertise PKCE S256 and a supported token authentication method".into());
+    }
     let auth = Arc::new(Authenticator::new(AuthConfig {
         mode: AuthMode::Jwks,
         strict_oauth: true,
@@ -68,6 +110,7 @@ pub async fn build(app: Arc<Service>, stop: CancellationToken) -> BuildResult<Ro
     let hosts = vec![host, cfg.bind.to_string()];
     let server = IrcMcp::new(app, stop.clone())?;
     let runtime = LocalMcpHttpRuntimeBuilder::new()
+        .server_config(StreamableHttpServerConfig::default().with_json_response(true))
         .allowed_hosts(hosts.clone())
         .allowed_origins(cfg.allowed_origins.clone())
         .max_request_body_bytes(16 * 1024)
@@ -78,6 +121,7 @@ pub async fn build(app: Arc<Service>, stop: CancellationToken) -> BuildResult<Ro
         .route("/mcp", any(handle_mcp::<IrcMcp>))
         .route("/mcp/", any(handle_mcp::<IrcMcp>))
         .route("/health", get(|| async { "alive" }))
+        .layer(middleware::from_fn(chatgpt_tool_schemes))
         .with_state(state)
         .layer(middleware::from_fn_with_state(
             Gate {
@@ -95,6 +139,17 @@ pub async fn build(app: Arc<Service>, stop: CancellationToken) -> BuildResult<Ro
             edge_gate,
         ));
     Ok(router)
+}
+fn chatgpt_oauth_metadata_ready(pkce: Option<&[String]>, token_methods: Option<&[String]>) -> bool {
+    pkce.is_some_and(|m| m.iter().any(|s| s == "S256"))
+        && token_methods.is_some_and(|m| {
+            m.iter().any(|s| {
+                matches!(
+                    s.as_str(),
+                    "none" | "private_key_jwt" | "client_secret_post" | "client_secret_basic"
+                )
+            })
+        })
 }
 async fn edge_gate(State(edge): State<Edge>, request: Request, next: Next) -> Response {
     let bad = || {
@@ -196,6 +251,33 @@ pub fn startup_failure() -> Failure {
 mod tests {
     use super::*;
     use tower::ServiceExt;
+    #[test]
+    fn chatgpt_tools_list_mirrors_oauth_schemes_at_descriptor_level() {
+        let source = serde_json::json!({
+            "jsonrpc": "2.0", "id": 7,
+            "result": {"tools": [{"name": "irc_send", "_meta": {
+                "securitySchemes": [{"type":"oauth2","scopes":["irc.read","irc.write"]}]
+            }}]}
+        });
+        let result = chatgpt_tool_list_payload(source.to_string().as_bytes())
+            .expect("tool list must be promoted");
+        let normalized: serde_json::Value = serde_json::from_slice(&result).unwrap();
+        assert_eq!(
+            normalized["result"]["tools"][0]["securitySchemes"],
+            normalized["result"]["tools"][0]["_meta"]["securitySchemes"]
+        );
+        assert!(chatgpt_tool_list_payload(&result).is_none());
+        assert!(chatgpt_tool_list_payload(br#"{"result":{"content":[]}}"#).is_none());
+    }
+    #[test]
+    fn oauth_host_requires_pkce_and_token_method_metadata() {
+        let s256 = ["S256".to_owned()];
+        let plain = ["plain".to_owned()];
+        let public = ["none".to_owned()];
+        assert!(chatgpt_oauth_metadata_ready(Some(&s256), Some(&public)));
+        assert!(!chatgpt_oauth_metadata_ready(Some(&plain), Some(&public)));
+        assert!(!chatgpt_oauth_metadata_ready(Some(&s256), None));
+    }
     #[tokio::test]
     async fn denies_foreign_host_and_origin_before_inner_service() {
         let app =
