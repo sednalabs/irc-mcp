@@ -126,15 +126,12 @@ impl ServerHandler for IrcMcp {
                 if matches!(request.name.as_ref(), "irc_send" | "irc_join" | "irc_part")
                     && !p.scopes.contains("irc.write")
                 {
-                    let url = mcp_toolkit::http::oauth::resource_metadata_hint(
-                        &self.app.cfg.resource_url(),
-                    )
-                    .ok_or_else(|| {
-                        rmcp::ErrorData::internal_error(
-                            "Invalid OAuth metadata configuration.",
-                            None,
-                        )
-                    })?;
+                    // The Config already validates a root-path HTTPS base URL;
+                    // our sole protected resource is fixed at /mcp.
+                    let url = format!(
+                        "{}/.well-known/oauth-protected-resource/mcp",
+                        self.app.cfg.public_base_url
+                    );
                     response["_meta"] = json!({"mcp/www_authenticate":[format!(
                         "Bearer resource_metadata=\"{url}\", error=\"insufficient_scope\", error_description=\"This action requires permission to send IRC messages\", scope=\"irc.write\""
                     )]});
