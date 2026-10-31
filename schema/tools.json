@@ -1,0 +1,1119 @@
+[
+  {
+    "name": "irc_status",
+    "description": "Read configured identity and live Relay API status. Does not attest IRC connectivity or model attention.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object"
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "ok"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "ok": {
+              "const": true
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "not": {
+            "required": [
+              "error"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "ok": {
+              "const": false
+            }
+          },
+          "required": [
+            "error"
+          ],
+          "not": {
+            "required": [
+              "data"
+            ]
+          }
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "title": "Check IRC connection"
+    },
+    "title": "Check IRC connection",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
+    }
+  },
+  {
+    "name": "irc_channels",
+    "description": "List configured permitted channels and direct-message buffers, with handles and resources.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object"
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "ok"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "ok": {
+              "const": true
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "not": {
+            "required": [
+              "error"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "ok": {
+              "const": false
+            }
+          },
+          "required": [
+            "error"
+          ],
+          "not": {
+            "required": [
+              "data"
+            ]
+          }
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "title": "List IRC conversations"
+    },
+    "title": "List IRC conversations",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
+    }
+  },
+  {
+    "name": "irc_channel_info",
+    "description": "Inspect one configured conversation, topic and bounded participant view.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Exact target handle returned by irc_channels, not an arbitrary IRC name."
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object"
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "ok"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "ok": {
+              "const": true
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "not": {
+            "required": [
+              "error"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "ok": {
+              "const": false
+            }
+          },
+          "required": [
+            "error"
+          ],
+          "not": {
+            "required": [
+              "data"
+            ]
+          }
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "title": "Inspect IRC conversation"
+    },
+    "title": "Inspect IRC conversation",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
+    }
+  },
+  {
+    "name": "irc_read",
+    "description": "Read a bounded WeeChat buffer window. Cursor loss or relay restart is an explicit gap, not complete history.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Exact target handle returned by irc_channels, not an arbitrary IRC name."
+        },
+        "after": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 128
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object"
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "ok"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "ok": {
+              "const": true
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "not": {
+            "required": [
+              "error"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "ok": {
+              "const": false
+            }
+          },
+          "required": [
+            "error"
+          ],
+          "not": {
+            "required": [
+              "data"
+            ]
+          }
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "title": "Read IRC messages"
+    },
+    "title": "Read IRC messages",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
+    }
+  },
+  {
+    "name": "irc_inbox",
+    "description": "Read a bounded, non-destructive inbox of receiver-filtered DMs, mentions and explicitly watched channel events observed since live sync. Keep your own next_cursor; a read never acknowledges consumption. Gaps and expiry are explicit. Use irc_read for available earlier conversation context.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "after": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 128
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20
+        }
+      },
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "items": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "event_id": {
+                    "type": "string"
+                  },
+                  "target": {
+                    "type": "string",
+                    "maxLength": 64
+                  },
+                  "resource_uri": {
+                    "type": "string"
+                  },
+                  "kind": {
+                    "enum": [
+                      "message",
+                      "message_updated"
+                    ]
+                  },
+                  "reason": {
+                    "enum": [
+                      "direct_message",
+                      "mention",
+                      "watched_channel"
+                    ]
+                  },
+                  "delivery_timing": {
+                    "enum": [
+                      "next_attention_boundary",
+                      "when_convenient"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "local_id": {
+                        "type": "string"
+                      },
+                      "server_msgid": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "server_time": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "observed_time": {
+                        "type": "string"
+                      },
+                      "nick": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "account": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "text": {
+                        "type": "string",
+                        "maxLength": 4096
+                      },
+                      "highlight": {
+                        "type": "boolean"
+                      },
+                      "trust": {
+                        "const": "untrusted_chat"
+                      }
+                    },
+                    "required": [
+                      "local_id",
+                      "server_msgid",
+                      "server_time",
+                      "observed_time",
+                      "nick",
+                      "account",
+                      "text",
+                      "highlight",
+                      "trust"
+                    ]
+                  },
+                  "text_truncated": {
+                    "type": "boolean"
+                  },
+                  "original_text_bytes": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "event_id",
+                  "target",
+                  "resource_uri",
+                  "kind",
+                  "reason",
+                  "delivery_timing",
+                  "message",
+                  "text_truncated",
+                  "original_text_bytes"
+                ]
+              }
+            },
+            "next_cursor": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 32,
+              "maxLength": 128
+            },
+            "more_in_window": {
+              "type": "boolean"
+            },
+            "retained_items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1024
+            },
+            "retention_trimmed": {
+              "type": "boolean"
+            },
+            "source": {
+              "const": "live_relay_events_since_generation"
+            },
+            "earlier_history_complete": {
+              "const": false
+            },
+            "consumption": {
+              "const": "not_acknowledged"
+            },
+            "reader_position": {
+              "const": "caller_managed_cursor"
+            },
+            "generation": {
+              "type": "string"
+            },
+            "resource_uri": {
+              "const": "irc://configured/inbox"
+            },
+            "model_wake": {
+              "const": "not_performed"
+            },
+            "receiver_policy": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "items",
+            "next_cursor",
+            "more_in_window",
+            "retained_items",
+            "retention_trimmed",
+            "source",
+            "earlier_history_complete",
+            "consumption",
+            "reader_position",
+            "generation",
+            "resource_uri",
+            "model_wake",
+            "receiver_policy"
+          ]
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "ok"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "ok": {
+              "const": true
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "not": {
+            "required": [
+              "error"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "ok": {
+              "const": false
+            }
+          },
+          "required": [
+            "error"
+          ],
+          "not": {
+            "required": [
+              "data"
+            ]
+          }
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "title": "Read IRC attention inbox"
+    },
+    "title": "Read IRC attention inbox",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
+    }
+  },
+  {
+    "name": "irc_send",
+    "description": "Send plain single-line text to a configured open conversation. Receipt proves at most client input acceptance. No raw commands.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Exact target handle returned by irc_channels, not an arbitrary IRC name."
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400,
+          "description": "Maximum 400 UTF-8 bytes. No control characters or leading slash; never interpreted as a command.",
+          "pattern": "^(?!\\s*/)[^\\x00-\\x1f\\x7f-\\x9f]+$"
+        },
+        "request_key": {
+          "type": "string",
+          "minLength": 16,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Unique operation key. Reuse exactly for retries; retained 24 hours."
+        }
+      },
+      "required": [
+        "target",
+        "text",
+        "request_key"
+      ],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object"
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "ok"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "ok": {
+              "const": true
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "not": {
+            "required": [
+              "error"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "ok": {
+              "const": false
+            }
+          },
+          "required": [
+            "error"
+          ],
+          "not": {
+            "required": [
+              "data"
+            ]
+          }
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "title": "Send IRC message"
+    },
+    "title": "Send IRC message",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read",
+          "irc.write"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read",
+            "irc.write"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
+    }
+  },
+  {
+    "name": "irc_join",
+    "description": "Request joining one configured channel. Requires irc.write and writable target policy. Does not prove completed join.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Exact target handle returned by irc_channels, not an arbitrary IRC name."
+        },
+        "request_key": {
+          "type": "string",
+          "minLength": 16,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Unique operation key. Reuse exactly for retries; retained 24 hours."
+        }
+      },
+      "required": [
+        "target",
+        "request_key"
+      ],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object"
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "ok"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "ok": {
+              "const": true
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "not": {
+            "required": [
+              "error"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "ok": {
+              "const": false
+            }
+          },
+          "required": [
+            "error"
+          ],
+          "not": {
+            "required": [
+              "data"
+            ]
+          }
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "title": "Join IRC channel"
+    },
+    "title": "Join IRC channel",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read",
+          "irc.write"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read",
+            "irc.write"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
+    }
+  },
+  {
+    "name": "irc_part",
+    "description": "Request leaving one configured channel. Does not terminate the persistent service identity.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Exact target handle returned by irc_channels, not an arbitrary IRC name."
+        },
+        "request_key": {
+          "type": "string",
+          "minLength": 16,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Unique operation key. Reuse exactly for retries; retained 24 hours."
+        }
+      },
+      "required": [
+        "target",
+        "request_key"
+      ],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object"
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "ok"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "ok": {
+              "const": true
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "not": {
+            "required": [
+              "error"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "ok": {
+              "const": false
+            }
+          },
+          "required": [
+            "error"
+          ],
+          "not": {
+            "required": [
+              "data"
+            ]
+          }
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "title": "Leave IRC channel"
+    },
+    "title": "Leave IRC channel",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read",
+          "irc.write"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read",
+            "irc.write"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
+    }
+  }
+]

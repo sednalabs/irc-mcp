@@ -1,0 +1,110 @@
+{
+  "candidate": "irc-mcp 0.2.0",
+  "date": "2026-10-31",
+  "release_status": "BASELINE GITHUB-HOSTED RUST CI PASSED; CHATGPT TOOL CONTRACT CHANGES PENDING FRESH CI AND LIVE LINKING",
+  "source_written": true,
+  "artifact_checks": {
+    "passed": 59,
+    "failures": 0,
+    "kind": "Packaging, JSON Schema and fixture checks only",
+    "command": "python -m pytest -q tests/test_artifact_contracts.py",
+    "exit_code": 0,
+    "log": "validation/artifact-tests.txt"
+  },
+  "rust_tests": {
+    "authored": 52,
+    "executed": true,
+    "by_file": {
+      "src/attention.rs": 6,
+      "src/domain.rs": 5,
+      "src/events.rs": 5,
+      "src/http.rs": 1,
+      "src/inbox.rs": 6,
+      "src/mcp.rs": 2,
+      "src/receipts.rs": 1,
+      "src/relay.rs": 2,
+      "src/relay_events.rs": 4,
+      "tests/inbox_contract.rs": 6,
+      "tests/relay_contract.rs": 4,
+      "tests/relay_events_contract.rs": 1,
+      "upstream/mcp-toolkit-resource-state/tests/contracts.rs": 9
+    },
+    "passed": 52,
+    "failed": 0,
+    "evidence": "https://github.com/sednalabs/irc-mcp/actions/runs/41179746060"
+  },
+  "rust_compilation": {
+    "executed": true,
+    "passed": true,
+    "environment": "GitHub-hosted ubuntu-24.04, pinned Rust 1.99",
+    "evidence": "https://github.com/sednalabs/irc-mcp/actions/runs/41179746060"
+  },
+  "qualification_attempt": {
+    "command": "bash scripts/qualify.sh",
+    "exit_code": 2,
+    "result": "Stopped at Cargo availability preflight, before dependency resolution or compilation",
+    "log": "validation/rust-qualification-attempt.txt"
+  },
+  "rust_formatting_and_clippy": {
+    "rustfmt_executed": true,
+    "clippy_executed": true,
+    "first_run_findings": 3,
+    "first_run_clippy_result": "failed due to style findings in src/inbox.rs and src/mcp.rs",
+    "fixes_in_candidate": true,
+    "final_strict_ci": "Baseline successful: https://github.com/sednalabs/irc-mcp/actions/runs/41180260223; subsequent changes require fresh CI"
+  },
+  "dependency_lockfile": {
+    "generated": true,
+    "generated_in": "GitHub-hosted run 41179746060",
+    "committed_in_candidate": true,
+    "root_patches_pinned": true
+  },
+  "patch_check": {
+    "passed": true,
+    "scope": "Proposed toolkit patch applied to the captured workspace-manifest fragment; added files matched staged source byte-for-byte. This is not a full toolkit checkout/build."
+  },
+  "shell_syntax_check": {
+    "passed": true
+  },
+  "python_syntax_check": {
+    "passed": true
+  },
+  "rust_delimiter_check": {
+    "passed": true,
+    "scope": "Lexical delimiter check only, not a parser, type checker or compiler"
+  },
+  "live_relay_integration": {
+    "executed": false
+  },
+  "hosted_oauth_chatgpt_integration": {
+    "executed": false
+  },
+  "upstream_publication": {
+    "performed": false,
+    "reason": "No repository writes attempted in this iteration"
+  },
+  "deployment": {
+    "performed": false
+  },
+  "scope_limits": [
+    "Inbox contains bounded live observations after a synchronised metadata baseline, not complete Ergo history.",
+    "Single authorised subject and persistent service identity.",
+    "No dot Events/webhook integration or model wake.",
+    "Native protocol remains pinned MCP 2026-07-28; real host compatibility must be tested."
+  ],
+  "public_repository_preparation": {
+    "performed": true,
+    "scope": "CI workflow, ignore rules, docs; no application code changes",
+    "checkout_action": "actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+    "runner": "ubuntu-24.04",
+    "ci_executed": true,
+    "requires_reviewed_lockfile": true,
+    "publication_performed": true,
+    "draft_pr": "https://github.com/sednalabs/irc-mcp/pull/1"
+  },
+  "chatgpt_plugin_readiness": {
+    "source_metadata_updated": true,
+    "live_linking_verified": false,
+    "directory_submitted": false
+  }
+}

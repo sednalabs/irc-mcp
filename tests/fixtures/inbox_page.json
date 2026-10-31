@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "event_id": "fixture-generation:1",
+      "target": "pilot",
+      "resource_uri": "irc://configured/conversations/pilot/messages",
+      "kind": "message",
+      "reason": "mention",
+      "delivery_timing": "next_attention_boundary",
+      "message": {
+        "local_id": "1",
+        "server_msgid": null,
+        "server_time": null,
+        "observed_time": "2026-01-01T00:00:00Z",
+        "nick": "helper",
+        "account": null,
+        "text": "agent: can you check the capacity?",
+        "highlight": false,
+        "trust": "untrusted_chat"
+      },
+      "text_truncated": false,
+      "original_text_bytes": 34
+    }
+  ],
+  "next_cursor": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "more_in_window": false,
+  "retained_items": 1,
+  "retention_trimmed": false,
+  "source": "live_relay_events_since_generation",
+  "earlier_history_complete": false,
+  "consumption": "not_acknowledged",
+  "reader_position": "caller_managed_cursor",
+  "generation": "fixture-generation",
+  "resource_uri": "irc://configured/inbox",
+  "model_wake": "not_performed",
+  "receiver_policy": {}
+}

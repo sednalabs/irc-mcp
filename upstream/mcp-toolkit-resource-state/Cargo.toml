@@ -1,0 +1,10 @@
+[package]
+name = "mcp-toolkit-resource-state"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.99"
+license = "Apache-2.0"
+publish = false
+description = "Proposed transport-independent bounded resource invalidation and cursor primitives"
+
+[dependencies]
