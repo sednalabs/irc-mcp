@@ -23,8 +23,8 @@
 ### Corrected
 
 - Relay line updates use the documented `buffer_line_data_changed` event.
-- Metadata uses WeeChat's `irc_tag_<name>_<value>` tag spelling, not an invented
-  equals-sign representation; duplicate, oversized or unsafe metadata is unknown.
+- Metadata uses WeeChat's documented `irc_tag_<name>=<value>` form;
+  duplicate, oversized or unsafe metadata is unknown.
 - Relay startup sends individual request objects, enables sync before the metadata
   snapshot, and bounds initial acknowledgement and WebSocket send waits.
 - Configured buffer identity/type is checked before admitting events. Closing an

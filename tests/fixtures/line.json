@@ -1,1 +1,1 @@
-{"id":12,"date":"2026-10-31T04:00:00Z","prefix":"helper","message":"Capacity has recovered.","tags":["irc_privmsg","nick_helper","irc_tag_account_helper-account","irc_tag_msgid_example-message","irc_tag_time_2026-10-31T04:00:00Z"],"highlight":true}
+{"id":12,"date":"2026-10-31T04:00:00Z","prefix":"helper","message":"Capacity has recovered.","tags":["irc_privmsg","nick_helper","irc_tag_account=helper-account","irc_tag_msgid=example-message","irc_tag_time=2026-10-31T04:00:00Z"],"highlight":true}

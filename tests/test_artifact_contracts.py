@@ -107,7 +107,7 @@ def test_fixture_has_explicit_optional_irc_metadata():
     v=json.loads((ROOT/'tests/fixtures/line.json').read_text())
     assert v['id']==12
     assert 'irc_privmsg' in v['tags']
-    assert any(t.startswith('irc_tag_msgid_') for t in v['tags'])
+    assert any(t.startswith('irc_tag_msgid=') for t in v['tags'])
 
 def test_patch_applies_to_captured_manifest_prefix_and_matches_staged_source(tmp_path):
     before='[workspace]\nresolver = "2"\nmembers = [\n  "crates/mcp-toolkit",\n  "crates/mcp-toolkit-core",\n  "crates/mcp-toolkit-auth",\n]\n'

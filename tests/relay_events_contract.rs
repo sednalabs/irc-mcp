@@ -55,6 +55,11 @@ async fn observer_uses_objects_syncs_before_snapshot_and_routes_only_relevant_ev
         let snapshot = next_json(&mut ws).await;
         assert_eq!(snapshot["request_id"], "snapshot");
         assert!(snapshot.is_object());
+        // A message emitted after sync but before the buffer snapshot must not
+        // disappear while the observer is establishing buffer identities.
+        ws.send(Message::Text(json!({"code":0,"event_name":"buffer_line_added","buffer_id":10,"body":{
+            "id":0,"date":"2026-01-01T00:00:00Z","message":"agent: during startup","tags":["irc_privmsg","nick_peer"]
+        }}).to_string().into())).await.unwrap();
         ws.send(Message::Text(json!({"request_id":"snapshot","code":200,"body":[
             {"id":10,"name":"irc.pilot.#agent-pilot","local_variables":{
                 "plugin":"irc","server":"pilot","channel":"#agent-pilot","type":"channel","nick":"agent"}}
@@ -90,9 +95,10 @@ async fn observer_uses_objects_syncs_before_snapshot_and_routes_only_relevant_ev
             let state = hub.observation().unwrap();
             if state.relay_events_connected {
                 let page = hub.inbox_page(&state.generation, None, 20).unwrap();
-                if !page.items.is_empty() {
-                    assert_eq!(page.items.len(), 1);
-                    assert_eq!(page.items[0].message.text, "agent: question");
+                if page.items.len() >= 2 {
+                    assert_eq!(page.items.len(), 2);
+                    assert_eq!(page.items[0].message.text, "agent: during startup");
+                    assert_eq!(page.items[1].message.text, "agent: question");
                     break;
                 }
             }

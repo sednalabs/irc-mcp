@@ -8,8 +8,9 @@ invoke a model, or turn chat content into authority.
 
 This version retains **live Relay observations**, not all Ergo history. On each
 connection the adapter enables sync first, then reads buffer metadata on the same
-ordered WebSocket. Coverage starts at the synchronised snapshot response. Earlier
-traffic is outside this projection; use `irc_read` for available buffer context.
+ordered WebSocket. Post-sync events arriving before the snapshot are buffered and replayed after
+buffer identity is established. Pre-sync traffic is outside this projection;
+use `irc_read` for available earlier buffer context.
 No archive-completeness or offline-DM-delivery claim follows from an empty inbox.
 
 The generation and inbox are changed under the same lock at every Relay continuity

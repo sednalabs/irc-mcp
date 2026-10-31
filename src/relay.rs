@@ -222,6 +222,7 @@ impl Relay {
         let mut events = RelayEvents::new(self.cfg.clone());
         let mut sync_seen = false;
         let mut ready = false;
+        let mut pending_startup = Vec::new();
         let startup_deadline = tokio::time::sleep(Duration::from_secs(20));
         tokio::pin!(startup_deadline);
         let mut tick = tokio::time::interval(Duration::from_secs(30));
@@ -253,9 +254,21 @@ impl Relay {
                                 events.snapshot(v.get("body").ok_or_else(Failure::shape)?)?;
                                 hub.boundary(true)?;
                                 ready=true;
+                                for pending in pending_startup.drain(..) {
+                                    events.apply(&pending, hub)?;
+                                }
                             } else if v.get("code").and_then(Value::as_u64)==Some(0) {
-                                // Pre-baseline traffic is deliberately not claimed as captured.
-                                if ready { events.apply(&v, hub)?; }
+                                if ready {
+                                    events.apply(&v, hub)?;
+                                } else if sync_seen {
+                                    // Sync is active but the buffer map is not ready. Retain
+                                    // notifications until the snapshot identifies their targets.
+                                    // Overflow means an explicit reconnect/gap, never silence.
+                                    if pending_startup.len() >= 256 {
+                                        return Err(Failure::new("startup_gap", "The pre-snapshot event buffer overflowed; continuity is not established."));
+                                    }
+                                    pending_startup.push(v);
+                                }
                             } else {return Err(Failure::shape());}
                         }
                         Some(Ok(Message::Ping(payload)))=> { send_frame(&mut ws,Message::Pong(payload)).await?; }

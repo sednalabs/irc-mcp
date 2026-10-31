@@ -77,11 +77,11 @@ impl RelayLine {
         };
         Some(Message {
             local_id: self.id.to_string(),
-            server_msgid: tag("irc_tag_msgid_"),
-            server_time: tag("irc_tag_time_"),
+            server_msgid: tag("irc_tag_msgid="),
+            server_time: tag("irc_tag_time="),
             observed_time: self.date.chars().take(64).collect(),
             nick: tag("nick_"),
-            account: tag("irc_tag_account_").filter(|a| a != "*"),
+            account: tag("irc_tag_account=").filter(|a| a != "*"),
             text: self.message.clone(),
             highlight: self.highlight,
             trust: "untrusted_chat".into(),
@@ -168,6 +168,26 @@ mod tests {
         assert_eq!(message.nick, None);
         assert_eq!(message.account, None);
         assert_eq!(message.server_msgid, None);
+    }
+    #[test]
+    fn metadata_tags_use_weechat_equals_encoding() {
+        let line = RelayLine {
+            id: 12,
+            date: "2026-10-31T12:00:00Z".into(),
+            prefix: String::new(),
+            message: "hello".into(),
+            tags: vec![
+                "irc_privmsg".into(),
+                "irc_tag_account=alice".into(),
+                "irc_tag_time=2026-10-31T12:00:00Z".into(),
+                "irc_tag_msgid=abcdef".into(),
+            ],
+            highlight: false,
+        };
+        let message = line.message().expect("message");
+        assert_eq!(message.account.as_deref(), Some("alice"));
+        assert_eq!(message.server_time.as_deref(), Some("2026-10-31T12:00:00Z"));
+        assert_eq!(message.server_msgid.as_deref(), Some("abcdef"));
     }
     #[test]
     fn tags_survive_as_data_not_credentials() {
