@@ -1,3 +1,9 @@
+## ChatGPT tool-and-auth compatibility amendments (PR #1, pending CI)
+
+- Per-tool OAuth schemes, human titles, corrected safety annotations and toolkit-based descriptor promotion.
+- Scope-upgrade challenges and useful JSON text for clients without structured output support.
+- Fail-fast issuer PKCE S256 and compatible token-method checks; ChatGPT linking and submission checklist.
+
 # Changes
 
 ## 0.2.0 — source candidate, 31 October 2026

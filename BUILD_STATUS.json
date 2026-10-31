@@ -1,7 +1,7 @@
 {
   "candidate": "irc-mcp 0.2.0",
   "date": "2026-10-31",
-  "release_status": "HOSTED RUST COMPILATION AND ALL 52 RUST TESTS PASSED; STRICT CI RECHECK AND LIVE INTEGRATION NOT YET QUALIFIED",
+  "release_status": "BASELINE GITHUB-HOSTED RUST CI PASSED; CHATGPT TOOL CONTRACT CHANGES PENDING FRESH CI AND LIVE LINKING",
   "source_written": true,
   "artifact_checks": {
     "passed": 59,
@@ -51,7 +51,7 @@
     "first_run_findings": 3,
     "first_run_clippy_result": "failed due to style findings in src/inbox.rs and src/mcp.rs",
     "fixes_in_candidate": true,
-    "final_strict_ci": "check PR for current results"
+    "final_strict_ci": "Baseline successful: https://github.com/sednalabs/irc-mcp/actions/runs/41180260223; subsequent changes require fresh CI"
   },
   "dependency_lockfile": {
     "generated": true,
@@ -101,5 +101,10 @@
     "requires_reviewed_lockfile": true,
     "publication_performed": true,
     "draft_pr": "https://github.com/sednalabs/irc-mcp/pull/1"
+  },
+  "chatgpt_plugin_readiness": {
+    "source_metadata_updated": true,
+    "live_linking_verified": false,
+    "directory_submitted": false
   }
 }

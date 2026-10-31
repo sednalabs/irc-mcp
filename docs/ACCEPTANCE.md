@@ -16,6 +16,19 @@ cancelled stream releases capacity. Check private/zero-TTL history responses.
 A host limited to older MCP revisions must receive an honest incompatibility,
 not a falsely advertised legacy path.
 
+## ChatGPT plugin compatibility
+
+Follow [ChatGPT integration](CHATGPT.md). Verify actual HTTPS `tools/list`
+contains OAuth `securitySchemes` at descriptor level and inside `_meta`,
+human titles and accurate safety hints for each of eight tools.
+Test that `irc.read` authorises reads and `irc.write` is additionally required
+for send, join and part; missing write scope should produce
+`mcp/www_authenticate` in the tool result. Test a real issuer advertising
+authorisation code with PKCE S256, compatible token authentication and the
+chosen client registration mode. Verify a tool-only client consumes both
+`structuredContent` and the actual JSON text response. Do not interpret
+MCP subscriptions as automatic model wake.
+
 ## Authentication and authorisation
 
 Use a disposable issuer and keys. Reject missing/invalid/expired tokens, wrong

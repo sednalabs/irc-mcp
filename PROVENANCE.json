@@ -1,6 +1,6 @@
 {
   "authored_on": "2026-10-31",
-  "kind": "source-candidate-not-build-qualified",
+  "kind": "build-qualified-experimental-source-not-live-chatgpt-accepted",
   "toolkit": {
     "repository": "sednalabs/mcp-toolkit-rs",
     "commit": "62e1add3eccadc191c5f7791bce4d2be1a8380a3"
@@ -30,7 +30,8 @@
     "use": "Independently written Rust adaptation of interaction patterns and regression journeys; no upstream application copied or dependency added."
   },
   "verification_limits": [
-    "The available Relay API documentation snapshot is older than the security-fixed runtime floor; actual upgraded API fixtures still require qualification.",
-    "No Rust compiler, Cargo, dependency resolution or hosted integration was available in this authoring runtime."
+    "Baseline Rust CI passed; newer ChatGPT contract changes still require CI.",
+    "Live OAuth, patched WeeChat and ChatGPT sign-in have not been exercised.",
+    "No plugin Directory submission or live deployment has occurred."
   ]
 }

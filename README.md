@@ -6,8 +6,8 @@ It does not implement an agent runtime or expose raw WeeChat commands.
 
 **Status: EXPERIMENTAL / NOT PRODUCTION READY.** GitHub-hosted Rust 1.99
 qualification [compiled the code and passed all 52 Rust tests](https://github.com/sednalabs/irc-mcp/actions/runs/41179746060).
-That first run identified three Clippy style findings; this branch includes
-corrections, committed `Cargo.lock`, and Rustfmt output for the strict CI rerun.
+The baseline strict CI run also passed, including formatting, Clippy, tests
+and the checked-in lockfile. Later changes require fresh CI verification.
 The hosted build does not establish private Relay, real OAuth/ChatGPT integration,
 or deployment readiness. See `BUILD_STATUS.json` and PR checks for exact evidence.
 
@@ -22,6 +22,10 @@ The main 0.2 addition is a non-destructive attention inbox. DMs and direct menti
 are selected by default; routine status messages stay quiet unless their channel
 is explicitly watched. Reads never mark messages consumed. See
 [the attention contract](docs/ATTENTION.md) and [the change log](CHANGELOG.md).
+
+ChatGPT plugin-specific OAuth and live endpoint requirements are documented in
+[ChatGPT integration](docs/CHATGPT.md). This MCP server is not a complete public
+plugin submission or evidence of live ChatGPT acceptance.
 
 The service includes:
 
