@@ -58,6 +58,22 @@ def test_output_envelopes(tool):
     validate.validate({'ok':False,'error':{'code':'example','message':'Example error.'}})
     assert list(validate.iter_errors({'ok':True}))
 
+@pytest.mark.parametrize('tool', TOOLS, ids=lambda t: t['name'])
+def test_chatgpt_tool_metadata(tool):
+    assert tool['title'].strip()
+    assert tool['annotations']['title'] == tool['title']
+    a=tool['annotations']
+    assert isinstance(a['readOnlyHint'], bool)
+    assert isinstance(a['destructiveHint'], bool)
+    assert a['openWorldHint'] is False
+    assert a['readOnlyHint'] is (tool['name'] not in {'irc_send','irc_join','irc_part'})
+    assert a['destructiveHint'] is (tool['name'] in {'irc_send','irc_part'})
+    scopes=['irc.read','irc.write'] if tool['name'] in {'irc_send','irc_join','irc_part'} else ['irc.read']
+    schemes=[{'type':'oauth2','scopes':scopes}]
+    assert tool['securitySchemes'] == schemes
+    assert tool['_meta']['securitySchemes'] == schemes
+    assert tool['_meta']['ui']['visibility'] == ['model']
+
 def test_tool_inventory_is_small():
     assert len(TOOLS)==8 and len(BY_NAME)==8
     assert all(not re.search(r'raw|exec|shell|script', t['name']) for t in TOOLS)

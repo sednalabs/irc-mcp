@@ -75,7 +75,32 @@
       "readOnlyHint": true,
       "destructiveHint": false,
       "idempotentHint": true,
-      "openWorldHint": true
+      "openWorldHint": false,
+      "title": "Check IRC connection"
+    },
+    "title": "Check IRC connection",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
     }
   },
   {
@@ -154,7 +179,32 @@
       "readOnlyHint": true,
       "destructiveHint": false,
       "idempotentHint": true,
-      "openWorldHint": true
+      "openWorldHint": false,
+      "title": "List IRC conversations"
+    },
+    "title": "List IRC conversations",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
     }
   },
   {
@@ -243,7 +293,32 @@
       "readOnlyHint": true,
       "destructiveHint": false,
       "idempotentHint": true,
-      "openWorldHint": true
+      "openWorldHint": false,
+      "title": "Inspect IRC conversation"
+    },
+    "title": "Inspect IRC conversation",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
     }
   },
   {
@@ -343,7 +418,32 @@
       "readOnlyHint": true,
       "destructiveHint": false,
       "idempotentHint": true,
-      "openWorldHint": true
+      "openWorldHint": false,
+      "title": "Read IRC messages"
+    },
+    "title": "Read IRC messages",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
     }
   },
   {
@@ -608,7 +708,32 @@
       "readOnlyHint": true,
       "destructiveHint": false,
       "idempotentHint": true,
-      "openWorldHint": true
+      "openWorldHint": false,
+      "title": "Read IRC attention inbox"
+    },
+    "title": "Read IRC attention inbox",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
     }
   },
   {
@@ -711,9 +836,36 @@
     },
     "annotations": {
       "readOnlyHint": false,
-      "destructiveHint": false,
+      "destructiveHint": true,
       "idempotentHint": false,
-      "openWorldHint": true
+      "openWorldHint": false,
+      "title": "Send IRC message"
+    },
+    "title": "Send IRC message",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read",
+          "irc.write"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read",
+            "irc.write"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
     }
   },
   {
@@ -810,7 +962,34 @@
       "readOnlyHint": false,
       "destructiveHint": false,
       "idempotentHint": false,
-      "openWorldHint": true
+      "openWorldHint": false,
+      "title": "Join IRC channel"
+    },
+    "title": "Join IRC channel",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read",
+          "irc.write"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read",
+            "irc.write"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
     }
   },
   {
@@ -907,7 +1086,34 @@
       "readOnlyHint": false,
       "destructiveHint": true,
       "idempotentHint": false,
-      "openWorldHint": true
+      "openWorldHint": false,
+      "title": "Leave IRC channel"
+    },
+    "title": "Leave IRC channel",
+    "securitySchemes": [
+      {
+        "type": "oauth2",
+        "scopes": [
+          "irc.read",
+          "irc.write"
+        ]
+      }
+    ],
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "irc.read",
+            "irc.write"
+          ]
+        }
+      ],
+      "ui": {
+        "visibility": [
+          "model"
+        ]
+      }
     }
   }
 ]
