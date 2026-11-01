@@ -8,7 +8,7 @@ use crate::{
     domain::{Failure, RelayLine, Result},
     inbox::{Inbox, Page, INBOX_URI},
 };
-use mcp_toolkit_resource_state::InvalidationSet;
+use mcp_toolkit::core::resource_invalidation::InvalidationSet;
 use std::{
     sync::{Arc, Mutex, Weak},
     time::Instant,

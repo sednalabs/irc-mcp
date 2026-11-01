@@ -132,9 +132,27 @@ impl ServerHandler for IrcMcp {
                         "{}/.well-known/oauth-protected-resource/mcp",
                         self.app.cfg.public_base_url
                     );
-                    response["_meta"] = json!({"mcp/www_authenticate":[format!(
-                        "Bearer resource_metadata=\"{url}\", error=\"insufficient_scope\", error_description=\"This action requires permission to send IRC messages\", scope=\"irc.write\""
-                    )]});
+                    let challenge = mcp_toolkit_auth::challenge::BearerChallenge {
+                        realm: "irc-mcp",
+                        resource_metadata: Some(&url),
+                        scope: Some("irc.write"),
+                        error: Some("insufficient_scope"),
+                        error_description: Some(
+                            "This action requires permission to send IRC messages",
+                        ),
+                        error_uri: None,
+                    };
+                    let auth_meta =
+                        mcp_toolkit_auth::challenge::build_mcp_apps_tool_authenticate_meta(
+                            &challenge,
+                        )
+                        .ok_or_else(|| {
+                            rmcp::ErrorData::internal_error(
+                                "Invalid OAuth reauthorisation configuration.",
+                                None,
+                            )
+                        })?;
+                    response["_meta"] = auth_meta;
                 }
                 response
             }

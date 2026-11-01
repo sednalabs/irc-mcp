@@ -1,9 +1,9 @@
 {
   "authored_on": "2026-10-31",
-  "kind": "build-qualified-experimental-source-not-live-chatgpt-accepted",
+  "kind": "toolkit-integration-draft-pending-hosted-qualification",
   "toolkit": {
     "repository": "sednalabs/mcp-toolkit-rs",
-    "commit": "62e1add3eccadc191c5f7791bce4d2be1a8380a3"
+    "commit": "9983a946d99f950f39f4ec656b31fbd726f818b9"
   },
   "rmcp": {
     "repository": "sednalabs/rust-sdk",
@@ -30,8 +30,8 @@
     "use": "Independently written Rust adaptation of interaction patterns and regression journeys; no upstream application copied or dependency added."
   },
   "verification_limits": [
-    "Baseline Rust CI passed; newer ChatGPT contract changes still require CI.",
-    "Live OAuth, patched WeeChat and ChatGPT sign-in have not been exercised.",
-    "No plugin Directory submission or live deployment has occurred."
+    "Original IRC PR #1 baseline passed hosted Rust CI; this new toolkit-staging source requires its own successful CI.",
+    "Unmerged toolkit staging is consumer-qualification-only, not a production dependency.",
+    "ChatGPT OAuth linking, real WeeChat and IRC delivery remain unverified."
   ]
 }
