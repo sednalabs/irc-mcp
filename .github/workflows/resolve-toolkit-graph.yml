@@ -1,0 +1,41 @@
+name: Resolve staged toolkit dependency graph (temporary, read-only)
+on:
+  pull_request:
+    paths:
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/resolve-toolkit-graph.yml"
+permissions:
+  contents: read
+jobs:
+  lockfile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out unprivileged source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Use Rust 1.99
+        run: |
+          rustup toolchain install 1.99.0 --profile minimal
+          rustup default 1.99.0
+      - name: Resolve exact staged toolkit revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          export CARGO_RESOLVER_INCOMPATIBLE_RUST_VERSIONS=fallback
+          cargo update
+      - name: Export candidate Cargo.lock without credentials
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, pathlib
+          buf=pathlib.Path("Cargo.lock").read_bytes()
+          print("LOCKFILE_SHA256="+hashlib.sha256(buf).hexdigest())
+          print("CARGO_LOCKFILE_BASE64_BEGIN")
+          encoded=base64.b64encode(buf).decode("ascii")
+          for i in range(0,len(encoded),240):
+              print("LOCK:",encoded[i:i+240],sep="")
+          print("CARGO_LOCKFILE_BASE64_END")
+          PY
