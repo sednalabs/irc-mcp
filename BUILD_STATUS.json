@@ -1,7 +1,7 @@
 {
   "candidate": "irc-mcp 0.2.0",
   "date": "2026-10-31",
-  "release_status": "BASELINE GITHUB-HOSTED RUST CI PASSED; CHATGPT TOOL CONTRACT CHANGES PENDING FRESH CI AND LIVE LINKING",
+  "release_status": "TOOLKIT STAGING INTEGRATION DRAFT; PREVIOUS BASELINE PASS IS NOT EVIDENCE FOR CURRENT HEAD",
   "source_written": true,
   "artifact_checks": {
     "passed": 59,
@@ -106,5 +106,12 @@
     "source_metadata_updated": true,
     "live_linking_verified": false,
     "directory_submitted": false
+  },
+  "toolkit_staging_integration": {
+    "toolkit_revision": "9983a946d99f950f39f4ec656b31fbd726f818b9",
+    "committed_lockfile": true,
+    "compilation_verified": false,
+    "live_host_verified": false,
+    "source_qualification_run": "https://github.com/sednalabs/irc-mcp/pull/2/checks"
   }
 }
