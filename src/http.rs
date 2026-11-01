@@ -13,8 +13,8 @@ use axum::{
     routing::{any, get},
     Router,
 };
-use mcp_toolkit::server::apps_http::mirror_apps_tool_security_schemes;
 use mcp_toolkit::rmcp::transport::streamable_http_server::StreamableHttpServerConfig;
+use mcp_toolkit::server::apps_http::mirror_apps_tool_security_schemes;
 use mcp_toolkit::server::{
     auth::{AuthSurfaceBuilder, IssuerEntry},
     http::{handle_mcp, LocalMcpHttpRuntimeBuilder},
