@@ -20,8 +20,8 @@ http = "1.3.1"
 http-body-util = "0.1.3"
 hyper = { version = "1", features = ["client", "http1"] }
 hyper-util = { version = "0.1", features = ["tokio"] }
-mcp-toolkit = { git = "https://github.com/sednalabs/mcp-toolkit-rs", rev = "62e1add3eccadc191c5f7791bce4d2be1a8380a3", features = ["server-auth"] }
-mcp-toolkit-auth = { git = "https://github.com/sednalabs/mcp-toolkit-rs", rev = "62e1add3eccadc191c5f7791bce4d2be1a8380a3" }
+mcp-toolkit = { git = "https://github.com/sednalabs/mcp-toolkit-rs", rev = "9983a946d99f950f39f4ec656b31fbd726f818b9", features = ["server-auth"] }
+mcp-toolkit-auth = { git = "https://github.com/sednalabs/mcp-toolkit-rs", rev = "9983a946d99f950f39f4ec656b31fbd726f818b9" }
 mcp-toolkit-resource-state = { path = "upstream/mcp-toolkit-resource-state" }
 percent-encoding = "2"
 semver = "1"
